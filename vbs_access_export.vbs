@@ -60,11 +60,19 @@ Class clsFiles
 	' present in the suggested filename
 	' --------------------------------------------------
 	Public Function MakeSafe(ByVal sFileName) 
+    
+	    ' Remove or replace characters forbidden by Windows file systems
+	    sFileName = Replace(sFileName, """", "")  ' Double quotes (caused your crash)
+	    sFileName = Replace(sFileName, "*", "_")   ' Asterisk
+	    sFileName = Replace(sFileName, "/", "_")   ' Forward slash
+	    sFileName = Replace(sFileName, "\", "_")   ' Backslash
+	    sFileName = Replace(sFileName, ":", "-")   ' Colon (often replaced with a dash)
+	    sFileName = Replace(sFileName, "?", "")    ' Question mark
+	    sFileName = Replace(sFileName, "<", "")    ' Less than
+	    sFileName = Replace(sFileName, ">", "")    ' Greater than
+	    sFileName = Replace(sFileName, "|", "_")   ' Pipe character
 	
-		' Don't allow * in a filename
-		sFileName = Replace(sFileName, "*", "_")
-
-		MakeSafe = sFileName
+	    MakeSafe = sFileName
 
 	End Function
 
